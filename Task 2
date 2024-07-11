@@ -1,0 +1,69 @@
+
+'''Task 2: Building a Chatbot Using Python: Your next task involves building a chatbot using Python.
+You will explore various libraries and techniques to develop a responsive and interactive chatbot that can engage with users effectively.'''
+import nltk
+from nltk.chat.util import Chat, reflections
+import tkinter as tk
+from tkinter import scrolledtext
+import datetime
+
+# Create the Chatbot responses with more personality
+pairs = [
+    ['my name is (.*)', ['Hello %1, how can I assist you today?']],
+    ['(hi|hello|hey)', ['Hi there!', 'Hello!', 'Hey!']],
+    ['(what is your name?|who are you?)', ['I am ChatBot 3000.']],
+    ['how are you?', ['I am just a bunch of code, but I am doing well, thank you!']],
+    ['(.*) created you?', ['I was created by a Python enthusiast who loves AI.']],
+    ['(.*) (location|city)?', ['I exist in the virtual world, everywhere and nowhere.']],
+    ['(.*) weather in (.*)', ['I do not have access to real-time data, but I hope it is pleasant in %2!']],
+    ['bye', ['Goodbye! It was nice talking to you.', 'See you later! Have a great day!']],
+    ['(.*)', ['Interesting... Tell me more!', 'I see. What else?', 'That sounds fascinating!']]
+]
+
+chatbot = Chat(pairs, reflections)
+
+# Create the GUI
+class ChatbotApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Chatbot")
+
+        self.chat_window = scrolledtext.ScrolledText(root, wrap=tk.WORD)
+        self.chat_window.pack(padx=10, pady=10)
+        self.chat_window.config(state=tk.DISABLED)
+
+        self.entry_frame = tk.Frame(root)
+        self.entry_frame.pack(padx=10, pady=10)
+
+        self.entry = tk.Entry(self.entry_frame, width=80)
+        self.entry.pack(side=tk.LEFT, padx=10, pady=10)
+
+        self.send_button = tk.Button(self.entry_frame, text="Send", command=self.send_message)
+        self.send_button.pack(side=tk.LEFT, padx=10, pady=10)
+
+        self.root.bind('<Return>', lambda event: self.send_message())
+
+    def send_message(self):
+        user_input = self.entry.get()
+        if user_input:
+            self.chat_window.config(state=tk.NORMAL)
+            self.chat_window.insert(tk.END, "You: " + user_input + "\n")
+            response = chatbot.respond(user_input)
+            if not response:
+                response = "None"
+            self.chat_window.insert(tk.END, "Bot: " + response + "\n\n")
+            self.chat_window.config(state=tk.DISABLED)
+            self.chat_window.yview(tk.END)
+            self.log_conversation(user_input, response)
+            self.entry.delete(0, tk.END)
+
+    def log_conversation(self, user_input, response):
+        with open("chat_log.txt", "a") as log_file:
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            log_file.write(f"{timestamp} - You: {user_input}\n")
+            log_file.write(f"{timestamp} - Bot: {response}\n")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ChatbotApp(root)
+    root.mainloop()
