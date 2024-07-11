@@ -1,0 +1,85 @@
+'''Task 1: Simple Registration Form Using Tkinter in Python: 
+You will be responsible for creating a basic registration form using Tkinter library in Python. The form should include fields such as name, email, age, etc. 
+This task will help you grasp the fundamentals of GUI development.'''
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to be called when the submit button is clicked
+def submit():
+    name = entry_name.get()
+    email = entry_email.get()
+    age = entry_age.get()
+    
+    if name and email and age:
+        try:
+            age = int(age)
+            messagebox.showinfo("Success", f"Registration Successful!\nName: {name}\nEmail: {email}\nAge: {age}")
+        except ValueError:
+            messagebox.showerror("Error", "Please enter a valid age.")
+    else:
+        messagebox.showerror("Error", "All fields are required.")
+
+# Define styles for labels, entries, and buttons
+label_style = {
+    "font": ("Helvetica", 14, "bold"),
+    "bg": "#f0f0f0",
+    "fg": "#333333",
+    "padx": 10,
+    "pady": 10
+}
+
+entry_style = {
+    "font": ("Helvetica", 12),
+    "bg": "#ffffff",
+    "fg": "#333333",
+    "bd": 2,
+    "relief": "solid",
+    "highlightbackground": "#a0a0a0",
+    "highlightcolor": "#a0a0a0",
+    "highlightthickness": 1,
+    "width": 30
+}
+
+button_style = {
+    "font": ("Helvetica", 14, "bold"),
+    "bg": "#4caf50",
+    "fg": "white",
+    "activebackground": "#388e3c",
+    "activeforeground": "white",
+    "bd": 3,
+    "relief": "raised",
+    "padx": 20,
+    "pady": 5
+}
+
+# Create the main window
+root = tk.Tk()
+root.title("Registration Form")
+root.geometry("500x350")  # Increase window size
+root.configure(bg="#f0f0f0")  # Set background color
+
+# Create a label and entry for the Name
+label_name = tk.Label(root, text="Name", **label_style)
+label_name.grid(row=0, column=0, padx=10, pady=10, sticky="e")
+entry_name = tk.Entry(root, **entry_style)
+entry_name.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+
+# Create a label and entry for the Email
+label_email = tk.Label(root, text="Email", **label_style)
+label_email.grid(row=1, column=0, padx=10, pady=10, sticky="e")
+entry_email = tk.Entry(root, **entry_style)
+entry_email.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+
+# Create a label and entry for the Age
+label_age = tk.Label(root, text="Age", **label_style)
+label_age.grid(row=2, column=0, padx=10, pady=10, sticky="e")
+entry_age = tk.Entry(root, **entry_style)
+entry_age.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+
+# Create a Submit button
+button_submit = tk.Button(root, text="Submit", command=submit, **button_style)
+button_submit.grid(row=3, column=0, columnspan=2, padx=10, pady=20)
+
+# Run the application
+root.mainloop()
+
