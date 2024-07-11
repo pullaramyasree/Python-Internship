@@ -11,11 +11,11 @@ import datetime
 pairs = [
     ['my name is (.*)', ['Hello %1, how can I assist you today?']],
     ['(hi|hello|hey)', ['Hi there!', 'Hello!', 'Hey!']],
-    ['(what is your name?|who are you?)', ['I am ChatBot 3000.']],
+    ['(what is your name?|who are you?)', ['I am ChatBot 3000, your AI companion.']],
     ['how are you?', ['I am just a bunch of code, but I am doing well, thank you!']],
-    ['(.*) created you?', ['I was created by a Python enthusiast who loves AI.']],
-    ['(.*) (location|city)?', ['I exist in the virtual world, everywhere and nowhere.']],
-    ['(.*) weather in (.*)', ['I do not have access to real-time data, but I hope it is pleasant in %2!']],
+    ['(.*) created you?', ['I was created by a Python enthusiast who loves AI and wants to make a positive impact.']],
+    ['(.*) (location|city)?', ['I exist in the virtual world, everywhere and nowhere, but I can provide information about any location you\'d like!']],
+    ['(.*) weather in (.*)', ['I do not have access to real-time data, but I hope it is pleasant in %2! You can check the weather forecast online for the most up-to-date information.']],
     ['bye', ['Goodbye! It was nice talking to you.', 'See you later! Have a great day!']],
     ['(.*)', ['Interesting... Tell me more!', 'I see. What else?', 'That sounds fascinating!']]
 ]
@@ -26,19 +26,20 @@ chatbot = Chat(pairs, reflections)
 class ChatbotApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Chatbot")
+        self.root.title("Chatbot 3000")
+        self.root.configure(background='#f0f0f0')
 
-        self.chat_window = scrolledtext.ScrolledText(root, wrap=tk.WORD)
+        self.chat_window = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=60, height=20, font=('Arial', 12), bg='#f0f0f0', fg='#333')
         self.chat_window.pack(padx=10, pady=10)
         self.chat_window.config(state=tk.DISABLED)
 
-        self.entry_frame = tk.Frame(root)
+        self.entry_frame = tk.Frame(root, bg='#f0f0f0')
         self.entry_frame.pack(padx=10, pady=10)
 
-        self.entry = tk.Entry(self.entry_frame, width=80)
+        self.entry = tk.Entry(self.entry_frame, width=60, font=('Arial', 12), bg='#f0f0f0', fg='#333')
         self.entry.pack(side=tk.LEFT, padx=10, pady=10)
 
-        self.send_button = tk.Button(self.entry_frame, text="Send", command=self.send_message)
+        self.send_button = tk.Button(self.entry_frame, text="Send", command=self.send_message, font=('Arial', 12), bg='#4CAF50', fg='#fff')
         self.send_button.pack(side=tk.LEFT, padx=10, pady=10)
 
         self.root.bind('<Return>', lambda event: self.send_message())
